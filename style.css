@@ -123,11 +123,32 @@ p {
 
 #result {
     margin-top: 2rem;
+    min-height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-card img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.menu-card p {
     font-size: 2rem;
     font-weight: bold;
     color: var(--accent-color);
-    min-height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0;
 }
