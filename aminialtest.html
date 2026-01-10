@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMAL FACE TEST</title>
+    <style>
+        :root {
+            --main-bg: #FFD133;
+            --text-color: #5E3B21;
+            --btn-bg: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Arial Black', 'Pretendard', sans-serif;
+            background-color: var(--main-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-color);
+            padding-top: 60px; /* Space for nav */
+        }
+
+        /* Navigation Styles */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            margin: 0 1.5rem;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .main-nav a:hover {
+            color: #ff6b6b;
+        }
+
+        .main-nav a.active {
+            color: #ff6b6b;
+            border-bottom: 2px solid #ff6b6b;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 80px; /* Adjusted for nav */
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(94, 59, 33, 0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--btn-bg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            padding: 40px 20px 120px 20px; /* Adjusted padding */
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 2.6em;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            font-size: 0.8em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .upload-area {
+            border: 3px dashed rgba(94, 59, 33, 0.2);
+            border-radius: 25px;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .upload-area:hover { background: rgba(255, 255, 255, 0.25); }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .btn {
+            background: var(--btn-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 16px 32px;
+            font-size: 0.9em;
+            font-weight: 900;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+            transition: transform 0.1s;
+        }
+        
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+        
+        #imagePreview {
+            width: 100%;
+            max-width: 260px;
+            border-radius: 30px;
+            margin: 25px auto;
+            display: none;
+            border: 6px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        #result {
+            margin-top: 20px;
+            padding: 30px 20px;
+            border-radius: 30px;
+            background: white;
+            display: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .result-desc {
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-top: 15px;
+            color: #7A5C46;
+            font-weight: bold;
+            word-break: keep-all;
+        }
+
+        .bottom-character {
+            position: fixed;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            pointer-events: none;
+            font-size: 220px;
+            opacity: 0.95;
+            filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.05));
+        }
+
+        #fileInput, #cameraInput { display: none; }
+        #loading { margin: 20px; font-weight: 900; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="about.html">사이트 소개</a>
+        <a href="index.html">오늘 뭐 먹지</a>
+        <a href="aminialtest.html" class="active">동물상 테스트</a>
+    </nav>
+
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLanguage('ko', this)">KO</button>
+        <button class="lang-btn" onclick="setLanguage('en', this)">EN</button>
+    </div>
+
+    <div class="container">
+        <h1 id="mainTitle">동물상 테스트</h1>
+        <p class="subtitle" id="subTitle">TOY PURCHASE EXCLUSIVE APP</p>
+        
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-text" id="uploadText">사진을 선택해주세요!</div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn" onclick="document.getElementById('cameraInput').click()" id="btnCamera">CAMERA</button>
+            <button class="btn" onclick="document.getElementById('fileInput').click()" id="btnAlbum">ALBUM</button>
+        </div>
+
+        <input type="file" id="fileInput" accept="image/*">
+        <input type="file" id="cameraInput" accept="image/*" capture="user">
+        
+        <div id="loading" style="display:none;">Analyzing...</div>
+        <img id="imagePreview">
+        <div id="result"></div>
+        
+        <button class="btn" id="resetBtn" style="display:none; margin-top:25px; background:var(--text-color); color:white;" onclick="location.reload()">AGAIN</button>
+    </div>
+
+    <div class="bottom-character">🐶</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script>
+        const URL = "https://teachablemachine.withgoogle.com/models/qmi-tA2uN/";
+        let model;
+        let currentLang = 'ko';
+        let lastResult = null; // 언어 변경 시 결과창 업데이트용
+
+        const i18n = {
+            ko: {
+                title: "동물상 테스트",
+                sub: "사랑스러운 나의 매력 찾기",
+                upload: "사진을 여기에 올리거나 클릭하세요",
+                camera: "카메라",
+                album: "앨범",
+                analyzing: "AI 분석 중...",
+                dog: "친근한 강아지상",
+                dogDesc: "누구에게나 사랑받는 긍정 에너지를 가졌네요! 다정하고 밝은 미소가 당신의 가장 큰 매력 포인트입니다.",
+                cat: "시크한 고양이상",
+                catDesc: "도도하면서도 신비로운 분위기가 넘치네요! 섬세한 감각과 세련된 매력으로 주변의 시선을 사로잡는 스타일입니다.",
+                again: "다시 테스트하기"
+            },
+            en: {
+                title: "ANIMAL FACE",
+                sub: "FIND YOUR ADORABLE CHARM",
+                upload: "Click here to upload photo",
+                camera: "CAMERA",
+                album: "ALBUM",
+                analyzing: "AI Analyzing...",
+                dog: "Friendly Puppy",
+                dogDesc: "You have a positive energy that everyone loves! Your warm and bright smile is your greatest charm point.",
+                cat: "Chic Cat",
+                catDesc: "You have a mysterious and sophisticated aura! Your delicate sense and elegant charm truly catch everyone's eye.",
+                again: "TRY AGAIN"
+            }
+        };
+
+        function setLanguage(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.getElementById('mainTitle').innerText = i18n[lang].title;
+            document.getElementById('subTitle').innerText = i18n[lang].sub;
+            document.getElementById('uploadText').innerText = i18n[lang].upload;
+            document.getElementById('btnCamera').innerText = i18n[lang].camera;
+            document.getElementById('btnAlbum').innerText = i18n[lang].album;
+            document.getElementById('resetBtn').innerText = i18n[lang].again;
+
+            if(lastResult) displayResult(lastResult);
+        }
+
+        async function loadModel() {
+            model = await tmImage.load(URL + "model.json", URL + "metadata.json");
+        }
+        loadModel();
+
+        document.getElementById('uploadArea').onclick = () => document.getElementById('fileInput').click();
+        document.getElementById('fileInput').onchange = (e) => handleFile(e.target.files[0]);
+        document.getElementById('cameraInput').onchange = (e) => handleFile(e.target.files[0]);
+
+        async function handleFile(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const img = document.getElementById('imagePreview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('loading').innerText = i18n[currentLang].analyzing;
+                
+                if(!model) await loadModel();
+                const prediction = await model.predict(img);
+                lastResult = prediction;
+                displayResult(prediction);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayResult(prediction) {
+            document.getElementById('loading').style.display = 'none';
+            let max = prediction.reduce((prev, current) => (prev.probability > current.probability) ? prev : current);
+            const isDog = max.className.toLowerCase().includes('dog') || max.className === 'Class 1';
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = `
+                <div style="font-size: 3.5em; margin-bottom: 10px;">${isDog ? '🐶' : '😺'}</div>
+                <h2 style="color:var(--text-color); font-size: 1.8em; font-weight: 900;">
+                    ${isDog ? i18n[currentLang].dog : i18n[currentLang].cat}
+                </h2>
+                <div style="font-size: 2.2em; font-weight: 900; margin: 10px 0; color: #FF6B6B;">
+                    ${(max.probability * 100).toFixed(0)}%
+                </div>
+                <p class="result-desc">
+                    ${isDog ? i18n[currentLang].dogDesc : i18n[currentLang].catDesc}
+                </p>
+            `;
+            resultDiv.style.display = 'block';
+            document.getElementById('resetBtn').style.display = 'inline-block';
+            
+            // 결과에 맞춰 하단 이모지 변경
+            document.querySelector('.bottom-character').innerText = isDog ? '🐶' : '😺';
+        }
+    </script>
+</body>
+</html>

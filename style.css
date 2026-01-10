@@ -26,7 +26,40 @@ body {
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
     margin: 0;
-    padding: 20px 0; /* Add vertical padding for mobile */
+    padding: 60px 0 20px 0; /* Adjusted padding to accommodate fixed nav */
+    flex-direction: column; /* Ensure nav sits on top if not absolute */
+}
+
+/* Navigation Styles */
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--container-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+    margin: 0 1.5rem;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.main-nav a:hover {
+    color: var(--accent-color);
+}
+
+.main-nav a.active {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
 }
 
 #app-container {
