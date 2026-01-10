@@ -11,16 +11,21 @@ const menus = [
     "마라탕", "쌀국수", "카레", "스테이크", "회/사시미"
 ];
 
-// Theme Toggle Logic (Preserved)
+// Theme Toggle Logic
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
+    themeToggle.checked = true;
 }
 
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
 });
 
 // Recommendation Logic
