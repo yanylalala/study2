@@ -81,3 +81,16 @@ recommendButton.addEventListener('click', () => {
         });
     }, 300);
 });
+
+// Contact Form Toggle
+const toggleContactBtn = document.getElementById('toggle-contact');
+const contactForm = document.getElementById('contact-form');
+
+toggleContactBtn.addEventListener('click', () => {
+    contactForm.classList.toggle('show');
+    if (contactForm.classList.contains('show')) {
+        toggleContactBtn.textContent = "접기 🔼";
+    } else {
+        toggleContactBtn.textContent = "제휴 문의하기 🤝";
+    }
+});
