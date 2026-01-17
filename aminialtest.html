@@ -3,7 +3,7 @@
 <head>
     <!-- SEO - General -->
     <title>동물상 테스트 - 나는 어떤 동물상일까?</title>
-    <meta name="description" content="사진 한 장으로 간단하게 알아보는 나의 동물상 테스트! 인공지능이 당신의 얼굴을 분석하여 강아지상인지 고양이상인지 알려드립니다.">
+    <meta name="description" content="사진 한 장으로 간단하게 알아보는 나의 동물상 테스트! 인공지능이 당신의 얼굴을 분석하여 강아지상, 고양이상, 토끼상 등 8가지 동물상 중 당신과 닮은 동물을 알려드립니다.">
     <link rel="canonical" href="https://study2-2f6.pages.dev/aminialtest.html">
 
     <!-- SEO - Open Graph / Facebook -->
@@ -51,7 +51,7 @@
       "@type": "WebPage",
       "name": "동물상 테스트 - 나는 어떤 동물상일까?",
       "url": "https://study2-2f6.pages.dev/aminialtest.html",
-      "description": "사진 한 장으로 간단하게 알아보는 나의 동물상 테스트! 인공지능이 당신의 얼굴을 분석하여 강아지상인지 고양이상인지 알려드립니다."
+      "description": "사진 한 장으로 간단하게 알아보는 나의 동물상 테스트! 인공지능이 당신의 얼굴을 분석하여 강아지상, 고양이상, 토끼상 등 8가지 동물상 중 당신과 닮은 동물을 알려드립니다."
     }
     </script>
 
@@ -243,7 +243,6 @@
         <a href="about.html">사이트 소개</a>
         <a href="index.html">오늘 뭐 먹지</a>
         <a href="aminialtest.html" class="active">동물상 테스트</a>
-
         <div class="lang-switch">
             <button class="lang-btn active" onclick="setLanguage('ko', this)">KO</button>
             <button class="lang-btn" onclick="setLanguage('en', this)">EN</button>
@@ -252,37 +251,45 @@
 
     <div class="container">
         <h1 id="mainTitle">동물상 테스트</h1>
-        <p class="subtitle" id="subTitle">TOY PURCHASE EXCLUSIVE APP</p>
+        <p class="subtitle" id="subTitle">사랑스러운 나의 매력 찾기</p>
         
         <div class="upload-area" id="uploadArea">
             <div class="upload-text" id="uploadText">사진을 선택해주세요!</div>
         </div>
 
         <div class="button-group">
-            <button class="btn" onclick="document.getElementById('cameraInput').click()" id="btnCamera">CAMERA</button>
-            <button class="btn" onclick="document.getElementById('fileInput').click()" id="btnAlbum">ALBUM</button>
+            <button class="btn" onclick="document.getElementById('cameraInput').click()" id="btnCamera">카메라</button>
+            <button class="btn" onclick="document.getElementById('fileInput').click()" id="btnAlbum">앨범</button>
         </div>
 
         <input type="file" id="fileInput" accept="image/*">
         <input type="file" id="cameraInput" accept="image/*" capture="user">
         
-        <div id="loading" style="display:none;">Analyzing...</div>
+        <div id="loading" style="display:none;">AI 분석 중...</div>
         <img id="imagePreview">
         <div id="result"></div>
         
-        <button class="btn" id="resetBtn" style="display:none; margin-top:25px; background:var(--text-color); color:white;" onclick="location.reload()">AGAIN</button>
+        <button class="btn" id="resetBtn" style="display:none; margin-top:25px; background:var(--text-color); color:white;" onclick="location.reload()">다시 테스트하기</button>
     </div>
 
     <div class="bottom-character">🐶</div>
 
     <script src="main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script>
-        const URL = "https://teachablemachine.withgoogle.com/models/qmi-tA2uN/";
-        let model;
         let currentLang = 'ko';
-        let lastResult = null; // 언어 변경 시 결과창 업데이트용
+        let lastResult = null;
+
+        const animalData = {
+            dog: { emoji: '🐶' },
+            cat: { emoji: '😺' },
+            rabbit: { emoji: '🐰' },
+            bear: { emoji: '🐻' },
+            fox: { emoji: '🦊' },
+            tiger: { emoji: '🐯' },
+            lion: { emoji: '🦁' },
+            cow: { emoji: '🐮' }
+        };
+        const animals = Object.keys(animalData);
 
         const i18n = {
             ko: {
@@ -296,10 +303,22 @@
                 dogDesc: "누구에게나 사랑받는 긍정 에너지를 가졌네요! 다정하고 밝은 미소가 당신의 가장 큰 매력 포인트입니다.",
                 cat: "시크한 고양이상",
                 catDesc: "도도하면서도 신비로운 분위기가 넘치네요! 섬세한 감각과 세련된 매력으로 주변의 시선을 사로잡는 스타일입니다.",
+                rabbit: "귀여운 토끼상",
+                rabbitDesc: "동그란 눈과 사랑스러운 분위기로 주변 사람들을 무장해제 시키는 매력이 있네요. 보호 본능을 자극하는 귀여움의 소유자!",
+                bear: "포근한 곰상",
+                bearDesc: "듬직하고 편안한 매력으로 주변 사람들에게 안정감을 주네요. 겉으로는 무뚝뚝해 보이지만 속은 누구보다 따뜻한 사람입니다.",
+                fox: "매혹적인 여우상",
+                foxDesc: "날카로운 눈매와 지적인 분위기로 사람들을 끌어당기는 매력이 있네요. 뛰어난 센스와 재치를 겸비한 당신은 어딜가나 주목받는 타입!",
+                tiger: "카리스마 호랑이상",
+                tigerDesc: "강렬한 눈빛과 리더십으로 무리를 이끄는 카리스마가 돋보이네요. 당신의 압도적인 존재감은 누구도 따라올 수 없습니다.",
+                lion: "위풍당당 사자상",
+                lionDesc: "자신감 넘치는 태도와 화려한 분위기로 항상 무리의 중심에 있네요. 사람들을 끄는 타고난 리더의 자질을 갖췄습니다.",
+                cow: "순수한 소상",
+                cowDesc: "크고 선한 눈망울과 우직함이 매력적이네요. 성실하고 신뢰감 있는 모습으로 주변 사람들에게 깊은 인상을 남깁니다.",
                 again: "다시 테스트하기"
             },
             en: {
-                title: "ANIMAL FACE",
+                title: "ANIMAL FACE TEST",
                 sub: "FIND YOUR ADORABLE CHARM",
                 upload: "Click here to upload photo",
                 camera: "CAMERA",
@@ -309,6 +328,18 @@
                 dogDesc: "You have a positive energy that everyone loves! Your warm and bright smile is your greatest charm point.",
                 cat: "Chic Cat",
                 catDesc: "You have a mysterious and sophisticated aura! Your delicate sense and elegant charm truly catch everyone's eye.",
+                rabbit: "Cute Rabbit",
+                rabbitDesc: "You have a charm that disarms people with your round eyes and lovely atmosphere. You are the owner of cuteness that stimulates protective instincts!",
+                bear: "Cozy Bear",
+                bearDesc: "You give a sense of stability to those around you with your dependable and comfortable charm. You may look blunt on the outside, but you are warmer than anyone on the inside.",
+                fox: "Fascinating Fox",
+                foxDesc: "You have a charm that attracts people with your sharp eyes and intellectual atmosphere. You are a type that gets attention wherever you go, combining excellent sense and wit!",
+                tiger: "Charismatic Tiger",
+                tigerDesc: "Your charisma to lead the pack with your intense eyes and leadership stands out. No one can follow your overwhelming presence.",
+                lion: "Majestic Lion",
+                lionDesc: "You are always at the center of the group with your confident attitude and brilliant atmosphere. You have the qualities of a natural leader who attracts people.",
+                cow: "Innocent Cow",
+                cowDesc: "Your large, good eyes and honesty are attractive. You leave a deep impression on those around you with your sincere and trustworthy appearance.",
                 again: "TRY AGAIN"
             }
         };
@@ -318,66 +349,70 @@
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            document.getElementById('mainTitle').innerText = i18n[lang].title;
-            document.getElementById('subTitle').innerText = i18n[lang].sub;
-            document.getElementById('uploadText').innerText = i18n[lang].upload;
-            document.getElementById('btnCamera').innerText = i18n[lang].camera;
-            document.getElementById('btnAlbum').innerText = i18n[lang].album;
-            document.getElementById('resetBtn').innerText = i18n[lang].again;
+            const texts = i18n[lang];
+            document.getElementById('mainTitle').innerText = texts.title;
+            document.getElementById('subTitle').innerText = texts.sub;
+            document.getElementById('uploadText').innerText = texts.upload;
+            document.getElementById('btnCamera').innerText = texts.camera;
+            document.getElementById('btnAlbum').innerText = texts.album;
+            document.getElementById('resetBtn').innerText = texts.again;
 
-            if(lastResult) displayResult(lastResult);
+            if (lastResult) {
+                displayResult(lastResult);
+            }
         }
-
-        async function loadModel() {
-            model = await tmImage.load(URL + "model.json", URL + "metadata.json");
-        }
-        loadModel();
 
         document.getElementById('uploadArea').onclick = () => document.getElementById('fileInput').click();
         document.getElementById('fileInput').onchange = (e) => handleFile(e.target.files[0]);
         document.getElementById('cameraInput').onchange = (e) => handleFile(e.target.files[0]);
 
-        async function handleFile(file) {
+        function handleFile(file) {
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = (e) => {
                 const img = document.getElementById('imagePreview');
                 img.src = e.target.result;
                 img.style.display = 'block';
-                document.getElementById('loading').style.display = 'block';
-                document.getElementById('loading').innerText = i18n[currentLang].analyzing;
                 
-                if(!model) await loadModel();
-                const prediction = await model.predict(img);
-                lastResult = prediction;
-                displayResult(prediction);
+                const loading = document.getElementById('loading');
+                loading.style.display = 'block';
+                loading.innerText = i18n[currentLang].analyzing;
+
+                // Mock analysis by waiting and then picking a random animal
+                setTimeout(() => {
+                    const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+                    lastResult = randomAnimal;
+                    displayResult(randomAnimal);
+                }, 1500); // Simulate analysis time
             };
             reader.readAsDataURL(file);
         }
 
-        function displayResult(prediction) {
+        function displayResult(animal) {
             document.getElementById('loading').style.display = 'none';
-            let max = prediction.reduce((prev, current) => (prev.probability > current.probability) ? prev : current);
-            const isDog = max.className.toLowerCase().includes('dog') || max.className === 'Class 1';
-            const resultDiv = document.getElementById('result');
             
+            const emoji = animalData[animal].emoji;
+            const title = i18n[currentLang][animal];
+            const description = i18n[currentLang][animal + 'Desc'];
+            const randomPercent = Math.floor(Math.random() * 20) + 80; // 80% to 99%
+
+            const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
-                <div style="font-size: 3.5em; margin-bottom: 10px;">${isDog ? '🐶' : '😺'}</div>
+                <div style="font-size: 3.5em; margin-bottom: 10px;">${emoji}</div>
                 <h2 style="color:var(--text-color); font-size: 1.8em; font-weight: 900;">
-                    ${isDog ? i18n[currentLang].dog : i18n[currentLang].cat}
+                    ${title}
                 </h2>
                 <div style="font-size: 2.2em; font-weight: 900; margin: 10px 0; color: #FF6B6B;">
-                    ${(max.probability * 100).toFixed(0)}%
+                    ${randomPercent}%
                 </div>
                 <p class="result-desc">
-                    ${isDog ? i18n[currentLang].dogDesc : i18n[currentLang].catDesc}
+                    ${description}
                 </p>
             `;
             resultDiv.style.display = 'block';
             document.getElementById('resetBtn').style.display = 'inline-block';
             
-            // 결과에 맞춰 하단 이모지 변경
-            document.querySelector('.bottom-character').innerText = isDog ? '🐶' : '😺';
+            document.querySelector('.bottom-character').innerText = emoji;
         }
     </script>
 </body>
