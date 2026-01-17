@@ -195,12 +195,15 @@
         <a href="about.html">사이트 소개</a>
         <a href="index.html">오늘 뭐 먹지</a>
         <a href="aminialtest.html" class="active">동물상 테스트</a>
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+        </label>
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLanguage('ko', this)">KO</button>
+            <button class="lang-btn" onclick="setLanguage('en', this)">EN</button>
+        </div>
     </nav>
-
-    <div class="lang-switch">
-        <button class="lang-btn active" onclick="setLanguage('ko', this)">KO</button>
-        <button class="lang-btn" onclick="setLanguage('en', this)">EN</button>
-    </div>
 
     <div class="container">
         <h1 id="mainTitle">동물상 테스트</h1>
@@ -227,6 +230,7 @@
 
     <div class="bottom-character">🐶</div>
 
+    <script src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script>
