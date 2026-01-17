@@ -257,13 +257,8 @@
             <div class="upload-text" id="uploadText">사진을 선택해주세요!</div>
         </div>
 
-        <div class="button-group">
-            <button class="btn" onclick="document.getElementById('cameraInput').click()" id="btnCamera">카메라</button>
-            <button class="btn" onclick="document.getElementById('fileInput').click()" id="btnAlbum">앨범</button>
-        </div>
-
         <input type="file" id="fileInput" accept="image/*">
-        <input type="file" id="cameraInput" accept="image/*" capture="user">
+        <p style="font-size: 0.8em; color: #7A5C46; margin-top: 15px;">등록한 사진은 저장되지 않습니다.</p>
         
         <div id="loading" style="display:none;">AI 분석 중...</div>
         <img id="imagePreview">
@@ -353,8 +348,7 @@
             document.getElementById('mainTitle').innerText = texts.title;
             document.getElementById('subTitle').innerText = texts.sub;
             document.getElementById('uploadText').innerText = texts.upload;
-            document.getElementById('btnCamera').innerText = texts.camera;
-            document.getElementById('btnAlbum').innerText = texts.album;
+
             document.getElementById('resetBtn').innerText = texts.again;
 
             if (lastResult) {
