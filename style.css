@@ -1,29 +1,11 @@
-:root {
-    --bg-color: #f0f0f0;
-    --container-bg: white;
-    --text-color: #000;
-    --button-bg: #ff6b6b;
-    --button-text: white;
-    --accent-color: #ff6b6b;
-}
-
-body.dark-mode {
-    --bg-color: #121212;
-    --container-bg: #1e1e1e;
-    --text-color: #e0e0e0;
-    --button-bg: #bb86fc;
-    --button-text: #000;
-    --accent-color: #bb86fc;
-}
-
 body {
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: #f0f0f0; /* Default light mode background */
+    color: #000; /* Default light mode text color */
     transition: background-color 0.3s, color 0.3s;
     margin: 0;
     padding: 60px 0 20px 0; /* Adjusted padding to accommodate fixed nav */
@@ -36,7 +18,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: var(--container-bg);
+    background-color: white;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
     display: flex;
@@ -48,7 +30,7 @@ body {
 
 .main-nav a {
     text-decoration: none;
-    color: var(--text-color);
+    color: #000;
     font-weight: bold;
     margin: 0;
     font-size: 1.1rem;
@@ -56,16 +38,16 @@ body {
 }
 
 .main-nav a:hover {
-    color: var(--accent-color);
+    color: #ff6b6b;
 }
 
 .main-nav a.active {
-    color: var(--accent-color);
-    border-bottom: 2px solid var(--accent-color);
+    color: #ff6b6b;
+    border-bottom: 2px solid #ff6b6b;
 }
 
 #app-container {
-    background-color: var(--container-bg);
+    background-color: white;
     padding: 3rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -74,59 +56,6 @@ body {
     transition: background-color 0.3s;
     max-width: 600px; /* Increased width for better reading */
     width: 90%;
-}
-
-/* Theme Toggle Switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-    flex-shrink: 0;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: var(--button-bg);
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
 }
 
 /* Language Switch */
@@ -143,14 +72,14 @@ input:checked + .slider:before {
     font-size: 0.8em;
     font-weight: bold;
     cursor: pointer;
-    color: var(--text-color);
+    color: #000;
     transition: all 0.2s;
 }
 
 .lang-btn.active {
-    background: var(--button-bg);
-    color: var(--button-text);
-    border-color: var(--button-bg);
+    background: #ff6b6b;
+    color: white;
+    border-color: #ff6b6b;
 }
 
 h1 {
@@ -159,7 +88,7 @@ h1 {
 
 p {
     margin-bottom: 2rem;
-    color: var(--text-color);
+    color: #000;
     opacity: 0.8;
 }
 
@@ -167,8 +96,8 @@ p {
     padding: 0.8rem 1.5rem;
     font-size: 1.1rem;
     font-weight: bold;
-    background-color: var(--button-bg);
-    color: var(--button-text);
+    background-color: #ff6b6b;
+    color: white;
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -188,153 +117,101 @@ p {
     align-items: center;
 }
 
-.menu-card {
+/* New card styles */
+.card {
+    width: 380px;
+    background-color: white;
+    border-radius: 40px; /* 둥근 모서리 */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+/* 상단 음식 이미지 */
+.card-image {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    display: block;
+}
+
+/* 텍스트 콘텐츠 영역 */
+.content {
+    padding: 30px;
+}
+
+/* 트렌딩 태그 */
+.badge-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    margin-bottom: 12px;
 }
 
-.menu-card img {
-    width: 100%;
-    max-width: 400px; /* Larger images */
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-.menu-card p {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--accent-color);
-    margin: 0;
-}
-
-/* Contact Section */
-#contact-section {
-    margin-top: 3rem;
-    border-top: 1px solid rgba(128, 128, 128, 0.2);
-    padding-top: 1.5rem;
-    width: 100%;
-}
-
-#toggle-contact {
-    background: none;
-    border: 1px solid var(--text-color);
-    color: var(--text-color);
-    padding: 0.5rem 1rem;
+.badge {
+    background-color: #fef3e7;
+    color: #f2a968;
+    padding: 4px 12px;
     border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-}
-
-#toggle-contact:hover {
-    background-color: var(--text-color);
-    color: var(--container-bg);
-}
-
-#contact-form {
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    text-align: left;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-#contact-form.show {
-    display: flex;
-}
-
-#contact-form h3 {
-    margin: 0 0 0.5rem 0;
-    text-align: center;
-    font-size: 1.2rem;
-}
-
-#contact-form input,
-#contact-form textarea {
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    width: 100%;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
-}
-
-#contact-form button[type="submit"] {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 0.8rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
+    font-size: 12px;
     font-weight: bold;
-    transition: opacity 0.3s;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
 }
 
-#contact-form button[type="submit"]:hover {
-    opacity: 0.9;
+.fire-icon {
+    margin-left: 8px;
+    font-size: 14px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* 제목 및 설명 */
+.title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #000;
+    margin: 0 0 10px 0;
 }
 
-/* New styles for content box and footer */
-.content-box {
-    margin-top: 3rem;
-    text-align: left;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(128, 128, 128, 0.2);
+.subtitle {
+    font-size: 18px;
+    color: #9e8e79;
+    margin: 0 0 15px 0;
+    font-weight: 500;
 }
 
-.content-box h2 {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin-bottom: 1rem;
+.description {
+    font-size: 15px;
+    color: #000;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.8;
 }
 
-.content-box h3 {
-    font-size: 1.2rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
+/* 구분선 */
+.divider {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
 }
 
-.content-box ul {
-    padding-left: 20px;
-    margin-bottom: 1.5rem;
+/* 하단 메타 정보 (시간, 칼로리) */
+.meta-info {
+    display: flex;
+    gap: 20px;
+    color: #9ea5ad;
+    font-size: 14px;
+    align-items: center;
 }
 
-.content-box li {
-    margin-bottom: 0.5rem;
-    opacity: 0.9;
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(128, 128, 128, 0.2);
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-footer a {
-    color: var(--text-color);
-    text-decoration: underline;
-}
-
-.desc-text {
-    font-size: 1rem !important; /* Override the large font */
-    font-weight: normal !important;
-    color: var(--text-color) !important;
-    margin-top: 0.5rem !important;
-    opacity: 0.9;
+/* 아이콘 대용 동그라미/도형 */
+.icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
 }

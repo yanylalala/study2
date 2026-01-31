@@ -1,8 +1,6 @@
 const recommendButton = document.getElementById('recommend-button');
 const resultDiv = document.getElementById('result');
-const themeToggle = document.getElementById('theme-toggle');
 
-// 메뉴 리스트 및 영어 프롬프트 매핑
 const menus = [
     { name: "김치찌개", prompt: "Kimchi stew, korean food, delicious, photography", desc: "한국인의 소울 푸드! 매콤하고 칼칼한 국물로 스트레스를 날려보세요.", image: "Kimchi stew.jpeg" },
     { name: "된장찌개", prompt: "Doenjang jjigae, soybean paste stew, korean food, delicious", desc: "구수한 국물 맛이 일품인 집밥의 정석. 건강하고 든든한 한 끼!", image: "Doenjang.jpeg" },
@@ -31,23 +29,6 @@ const menus = [
     { name: "회/사시미", prompt: "Sashimi, fresh raw fish slice, japanese food", desc: "바다의 신선함을 그대로. 쫄깃한 식감과 고소한 맛.", image: "Sashimi.jpeg" }
 ];
 
-// Theme Toggle Logic
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    themeToggle.checked = true;
-}
-
-themeToggle.addEventListener('change', () => {
-    if (themeToggle.checked) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-    }
-});
-
 // Recommendation Logic
 recommendButton.addEventListener('click', () => {
     // 애니메이션 효과를 위해 잠시 로딩 표시
@@ -64,22 +45,28 @@ recommendButton.addEventListener('click', () => {
 
         // 결과 표시
         resultDiv.innerHTML = `
-            <div class="menu-card">
-                <img src="${imageUrl}" alt="${selectedMenu.name}" onload="this.style.opacity=1">
-                <p>${selectedMenu.name}</p>
-                <p class="desc-text">${selectedMenu.desc}</p>
+            <div class="card">
+                <img src="${imageUrl}" alt="${selectedMenu.name}" class="card-image">
+                <div class="content">
+                    <div class="badge-container">
+                        <span class="badge">TRENDING</span>
+                        <span class="fire-icon">🔥</span>
+                    </div>
+                    <h1 class="title">${selectedMenu.name}</h1>
+                    <p class="description">${selectedMenu.desc}</p>
+                </div>
             </div>
         `;
         
         // 간단한 팝 효과
-        resultDiv.animate([
+        /* resultDiv.animate([
             { transform: 'scale(0.8)', opacity: 0.5 },
             { transform: 'scale(1.1)', opacity: 1 },
             { transform: 'scale(1)', opacity: 1 }
         ], {
             duration: 300,
             easing: 'ease-out'
-        });
+        }); */
     }, 300);
 });
 
