@@ -59,8 +59,8 @@ recommendButton.addEventListener('click', () => {
         const randomIndex = Math.floor(Math.random() * menus.length);
         const selectedMenu = menus[randomIndex];
         
-        // 이미지 URL 생성 (랜덤 시드 추가로 캐싱 방지)
-        const imageUrl = `food/${encodeURIComponent(selectedMenu.image)}`;
+        // 이미지 URL 생성
+        const imageUrl = `/food/${encodeURIComponent(selectedMenu.image)}`;
 
         // 결과 표시
         resultDiv.innerHTML = `
